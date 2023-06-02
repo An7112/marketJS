@@ -1,0 +1,16 @@
+.overview-main{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-sm);
+}
+
+.overview-main .paginated-title{
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+    font-size: 18px;
+    font-weight: 550;
+    border-bottom: 2px solid var(--text-color);
+    max-width: 85px;
+    color: var(--text-color);
+}
