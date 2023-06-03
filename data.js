@@ -16,9 +16,15 @@ async function getData() {
         const paginatedFrame = document.getElementById('paginated-main');
         const paginatedHeader = createPaginatedHeader();
         const listItemRow = createListItemRow(fetchData);
-
+        var divLoad = document.createElement('div')
+        divLoad.className = 'div-load'
         paginatedFrame.appendChild(paginatedHeader);
-        paginatedFrame.appendChild(listItemRow);
+        if(Array.isArray(dataRes) && dataRes.length > 0){
+            paginatedFrame.appendChild(listItemRow);
+        }else{
+            paginatedFrame.appendChild(divLoad)
+        }
+        
     } catch (error) {
         console.log(error);
     }
@@ -52,30 +58,51 @@ function createListItemRow(data) {
     const listItemRow = document.createElement('div');
     listItemRow.className = 'paginated-row grid-container';
 
-    const html = data.map((element) => {
-        return `
-            <a class="router-item">
-                <div class='paginated-item items'>
-                    <div class='item-name'>
-                        <div class='class-img'>
-                            <span class='span-frame'>
-                                <img class='img-avatar' alt='' src='${element.storeAvatar}' />
-                            </span>
-                        </div>
-                        <span class='item-name-store'>${element.storeName}</span>
-                    </div>
-                    <span class='item-3'>
-                        ${element.storeProductLength}
-                    </span>
-                    <span class='item-3'>
-                        ${element.date}
-                    </span>
-                </div>
-                <div class='line'></div>
-            </a>`;
-    });
+    data.forEach((element) => {
+        const anchor = document.createElement('a');
+        anchor.className = 'router-item';
+        anchor.href = `/detail.html?id=${element._id}`;
 
-    listItemRow.innerHTML = html.join("");
+        const paginatedItem = document.createElement('div');
+        paginatedItem.className = 'paginated-item items';
+
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item-name';
+
+        const classImg = document.createElement('div');
+        classImg.className = 'class-img';
+
+        const spanFrame = document.createElement('span');
+        spanFrame.className = 'span-frame';
+
+        const imgAvatar = document.createElement('img');
+        imgAvatar.className = 'img-avatar';
+        imgAvatar.alt = '';
+        imgAvatar.src = element.storeAvatar;
+
+        const itemNameStore = document.createElement('span');
+        itemNameStore.className = 'item-name-store';
+        itemNameStore.textContent = element.storeName;
+
+        const itemQuantity = document.createElement('span');
+        itemQuantity.className = 'item-3';
+        itemQuantity.textContent = element.storeProductLength;
+
+        const itemDate = document.createElement('span');
+        itemDate.className = 'item-3';
+        itemDate.textContent = element.date;
+
+        itemDiv.appendChild(classImg);
+        classImg.appendChild(spanFrame);
+        spanFrame.appendChild(imgAvatar);
+        itemDiv.appendChild(itemNameStore);
+        paginatedItem.appendChild(itemDiv);
+        paginatedItem.appendChild(itemQuantity);
+        paginatedItem.appendChild(itemDate);
+        anchor.appendChild(paginatedItem);
+
+        listItemRow.appendChild(anchor);
+    });
 
     return listItemRow;
 }

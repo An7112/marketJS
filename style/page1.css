@@ -232,6 +232,30 @@
     object-fit: cover;
 }
 
+  
+.collection-table-grid{
+    gap:16px;
+  }
+  
+  .div-load {
+    height: 87px;
+    width: 100%;
+    padding: 0.5rem;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    background-color: var(--bg-contrast);
+    border-radius: 0;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: .5;
+    }
+  }
+
 @media (max-width: 768px) {
     #paginated-main {
         grid-template-columns: 1fr;

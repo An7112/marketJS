@@ -5,20 +5,82 @@ function toggleSidebar() {
     content.classList.toggle('open');
   }
   
-  function removeClassSidebar() {
-    var sidebar = document.getElementById('sidebar');
-    var content = document.querySelector('.content');
-    sidebar.classList.remove('open');
-    content.classList.remove('open');
+  // function removeClassSidebar() {
+  //   var sidebar = document.getElementById('sidebar');
+  //   var content = document.querySelector('.content');
+  //   sidebar.classList.remove('open');
+  //   content.classList.remove('open');
+  // }
+  
+  // function clickOutside(event) {
+  //   var sidebar = document.getElementById('sidebar');
+  //   var header = document.getElementById('header');
+  //   if (!sidebar.contains(event.target) && !header.contains(event.target)) {
+  //     removeClassSidebar();
+  //   }
+  // }
+  
+  // document.addEventListener('click', clickOutside);
+  
+
+  const main = document.getElementById("slideshow")
+  let slideIndex = 1;
+  const slideImg = [
+      {
+          slide: '/media/banner/banner1.jpg'
+      },
+      {
+          slide: '/media/banner/banner2.jpg'
+      },
+      {
+          slide: '/media/banner/banner3.jpg'
+      }
+  ]
+  
+  main.innerHTML = slideImg.map((ele, index) => (
+      `
+          <div class="mySlides fade">
+              <img src="${ele.slide}" alt="" style="width:100%">
+          </div>
+     `
+  )).join('')
+  
+  function plusS(slide) {
+      plusSlides({
+          n: slide
+      })
+  }
+  function current(slide) {
+      currentSlide({
+          n: slide
+      })
   }
   
-  function clickOutside(event) {
-    var sidebar = document.getElementById('sidebar');
-    var header = document.getElementById('header');
-    if (!sidebar.contains(event.target) && !header.contains(event.target)) {
-      removeClassSidebar();
-    }
+  showSlides(slideIndex);
+  
+  function plusSlides(n) {
+      showSlides(slideIndex += n);
   }
   
-  document.addEventListener('click', clickOutside);
+  function currentSlide(n) {
+      showSlides(slideIndex = n);
+  }
+  
+  function showSlides(n) {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+      for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" active", "");
+      }
+      console.log(Object.keys(slides))
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+  }
+  
   
