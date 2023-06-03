@@ -112,7 +112,6 @@
             return data
         }
 
-        const productsInCart = JSON.parse(localStorage.getItem('cart')) ?? [];
 
         function updateDetailContent(data) {
             // Update the DOM with the detail data
@@ -123,7 +122,7 @@
             // Example: Display the store name
             data.forEach((element) => {
                 const storeItems = document.createElement('a');
-                // storeItems.href = `/product.html?storeId=${data.owner}&id=${element._id}`
+                storeItems.href = `/product.html?storeId=${data.owner}&id=${element._id}`
 
                 const item = document.createElement('div')
                 item.className = 'item'
@@ -135,6 +134,7 @@
                         ? 'added-to-cart'
                         : 'add-to-cart';
                 buttonCart.onclick = function (event) {
+                    event.preventDefault()
                     shoppingCart(this, element);
                 };
 

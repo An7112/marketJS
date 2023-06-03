@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 async function getData() {
     try {
         const response = await fetch(`https://marketplace-3lqw.onrender.com/api/stores?limit=${defaultValue}`);
-        const dataRes = await response.json();
+        const dataRes = await response.json() ?? [];
         const fetchData = [...dataRes];
 
         const paginatedFrame = document.getElementById('paginated-main');

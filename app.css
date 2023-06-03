@@ -16,7 +16,7 @@
     background-color: #ccc;
     margin-top: 80px;
     position: fixed;
-    z-index: 10;
+    z-index: 9;
     background-color: var(--bg-contrast);
     left: -240px;
     transition: left 0.3s ease;
