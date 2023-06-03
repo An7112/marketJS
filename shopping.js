@@ -3,6 +3,7 @@ const getListView = document.getElementById('shopping-item-list')
 function closeModal() {
     const modal = document.querySelector('.cart-frame')
     modal.classList.remove('open')
+    getListView.innerHTML = '';
 }
 function openModal() {
     const modal = document.querySelector('.cart-frame')

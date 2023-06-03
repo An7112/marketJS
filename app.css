@@ -463,45 +463,6 @@ svg {
 .content-form-grid .div-label-input {
     grid-column: span 3 / span 3;
 }
-
-.div-label-input label {
-    display: flex;
-    letter-spacing: 0.025em;
-    align-items: center;
-    text-transform: uppercase;
-    color: var(--sub-bg);
-    margin-bottom: var(--sp-2);
-    font-size: var(--text-sm);
-    font-weight: var(--font-bold);
-}
-.div-label-input input {
-    border: none;
-    font-size: var(--text-sm);
-    line-height: calc(var(--sp-4) + 0.25rem);
-    margin-top: var(--sp-1);
-    padding: var(--sp-3) 0;
-    display: block;
-    width: 100%;
-    border-radius: calc(var(--br-xs) / 2);
-    background-color: var(--input-bg);
-}
-input:focus {
-    outline: none;
-}
-.div-label-input.full {
-    grid-column: span 6 / span 6;
-}
-.div-label-input.full textarea {
-    border: none;
-    font-size: var(--text-sm);
-    line-height: calc(var(--sp-4) + 0.25rem);
-    margin-top: var(--sp-1);
-    padding: var(--sp-3) 0 var(--sp-3) var(--sp-1);
-    display: block;
-    width: 99%;
-    border-radius: calc(var(--br-xs) / 2);
-    background-color: var(--input-bg);
-}
 .content-form-grid .div-submit {
     display: flex;
     align-items: center;

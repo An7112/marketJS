@@ -12,19 +12,9 @@ var data = [
         icon: '<span class="material-symbols-outlined">category</span>'
     },
     {
-        link: "page2.html",
+        link: "profile.html",
         name: "profile",
         icon: '<span class="material-symbols-outlined">person</span>'
-    },
-    {
-        link: "page3.html",
-        name: "create",
-        icon: '<span class="material-symbols-outlined">new_window</span>'
-    },
-    {
-        link: "page4.html",
-        name: "history",
-        icon: '<span class="material-symbols-outlined">manage_search</span>'
     },
 ];
 

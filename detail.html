@@ -56,19 +56,14 @@
 
 
     <script>
-        // Add your JavaScript code here to fetch and display the details
         document.addEventListener("DOMContentLoaded", function () {
-            // Retrieve the element ID from the URL
             const url = window.location.href;
             var questionMarkIndex = url.indexOf('?')
             var queryString = url.substring(questionMarkIndex + 1);
             var params = new URLSearchParams(queryString)
             var storeId = params.get("id")
-
-            // Fetch the detail data for the given ID
             fetchDetailData(storeId)
                 .then((data) => {
-                    // Update the DOM with the detail data
                     updateDetailContent(data);
                 })
                 .catch((error) => {
@@ -119,10 +114,9 @@
 
             const listItem = document.createElement('div')
             listItem.className = 'list-item'
-            // Example: Display the store name
             data.forEach((element) => {
                 const storeItems = document.createElement('a');
-                storeItems.href = `/product.html?storeId=${data.owner}&id=${element._id}`
+                storeItems.href = `/product.html?storeId=${element.owner}&id=${element._id}`
 
                 const item = document.createElement('div')
                 item.className = 'item'
