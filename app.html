@@ -2,9 +2,11 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="app.css">
-    <link rel="stylesheet" type="text/css" href="./style/page1.css">
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="/style/app.css">
+    <link rel="stylesheet" type="text/css" href="/style/page1.css">
+    <link rel="stylesheet" type="text/css" href="/style/index.css">
+    <link rel="stylesheet" type="text/css" href="/style/shopping.css">
+    <link rel="stylesheet" type="text/css" href="/style/product.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
@@ -29,11 +31,10 @@
                         paid
                     </span>
                 </div>
-                <div class='class-icon-header'>
+                <div class='class-icon-header' onclick="openModal()">
                     <span class="material-symbols-outlined icon-header">
                         shopping_cart
                     </span>
-                    <p class='cart-count'>0</p>
                 </div>
                 <div class='class-avatar'>
                     <span class='span-frame'>
@@ -41,8 +42,54 @@
                     </span>
                 </div>
             </div>
+            <div class="cart-frame" id="cart-frame-id">
+                <aside class='cart-main' id="cart-main-id">
+                    <div class='cart-outer'>
+                        <div class='shopping-cart'>
+                            <header>
+                                <div class='fresnel-greater'>
+                                    <div class='cart-inner'>
+                                        <div class='shopping-cart-name'>
+                                            <h4>Your cart</h4>
+                                            <AiFillExclamationCircle />
+                                        </div>
+                                        <button type='button' onclick="closeModal()">
+                                            <span class="material-symbols-outlined">
+                                                cancel
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <hr />
+                                    <div class='count-item' id="count-item-id">
+                                        <span>0 item</span>
+                                        <button type='button' onclick="clearAllItem()">
+                                            <span>
+                                                Clear all
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </header>
+                            <ul class='list-item' id="shopping-item-list">
+                            </ul>
+                            <div style="margin-bottom: 16px;"></div>
+                            <hr />
+                            <footer>
+                                <div class='footer-inner' id="footer-inner-id">
+                                    <span class='footer-title'>Total price</span>
+                                    <span>0 USD</span>
+                                </div>
+                            </footer>
+                            <div class='class-button'>
+                                <button onClick={buyProduct}>
+                                    Complete purchase
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </div>
-        <!-- Nội dung của header -->
     </div>
 
     <div id="sidebar" class="open">
@@ -108,8 +155,9 @@
 
         </div>
     </div>
-    <script src="app.js"></script>
-    <script src="link.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/link.js"></script>
+    <script src="/js/shopping.js"></script>
 </body>
 
 </html>

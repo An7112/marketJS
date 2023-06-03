@@ -3,33 +3,57 @@ const router = window.location.pathname;
 let currentPage = 0;
 let itemsPerPage = 10;
 
-document.addEventListener("DOMContentLoaded", function () {
-    getData();
-});
+const url = `https://marketplace-3lqw.onrender.com/api/stores?limit=${defaultValue}`;
+const paginatedFrame = document.getElementById('paginated-main');
+if (window.Promise) {
+    if (navigator.onLine) {
+        var promise = new Promise(function (resolve, reject) {
+            var request = new XMLHttpRequest();
+            paginatedFrame.appendChild(loadTime());
+            request.open('GET', url);
+            request.onload = function () {
+                if (request.status == 200) {
+                    resolve(request.response);
+                } else {
+                    paginatedFrame.innerHTML = `
+                        <div class="not-found">
+                            <h5>Oh no!, something's wrong ${request.statusText}</h5>
+                        </div>
+                    `;
+                    reject(Error(request.statusText));
+                }
+            };
+            request.onerror = function () {
+                paginatedFrame.innerHTML = `
+                    <div class="not-found">
+                        <h5>Error fetching data</h5>
+                    </div>
+                `;
+                reject(Error('Error fetching data.'));
+            };
+            request.send();
+        });
 
-async function getData() {
-    try {
-        const response = await fetch(`https://marketplace-3lqw.onrender.com/api/stores?limit=${defaultValue}`);
-        const dataRes = await response.json() ?? [];
-        const fetchData = [...dataRes];
-
-        const paginatedFrame = document.getElementById('paginated-main');
-        const paginatedHeader = createPaginatedHeader();
-        const listItemRow = createListItemRow(fetchData);
-        var divLoad = document.createElement('div')
-        divLoad.className = 'div-load'
-        paginatedFrame.appendChild(paginatedHeader);
-        if(Array.isArray(dataRes) && dataRes.length > 0){
+        promise.then(function (data) {
+            paginatedFrame.innerHTML = '';
+            const jsonData = JSON.parse(data);
+            const paginatedHeader = createPaginatedHeader();
+            const listItemRow = createListItemRow(jsonData);
+            paginatedFrame.appendChild(paginatedHeader);
             paginatedFrame.appendChild(listItemRow);
-        }else{
-            paginatedFrame.appendChild(divLoad)
-        }
-        
-    } catch (error) {
-        console.log(error);
+        }).catch(function (error) {
+            console.log('Promise rejected.');
+        });
+    } else {
+        paginatedFrame.innerHTML = `
+            <div class="not-found">
+                <h5>Oh no, it looks like you don't have an internet connection!</h5>
+            </div>
+        `;
     }
+} else {
+    console.log('Promise not available');
 }
-
 function createPaginatedHeader() {
     const paginatedHeader = document.createElement('div');
     paginatedHeader.className = 'paginated-row paginated-header';
@@ -55,13 +79,14 @@ function createPaginatedHeader() {
 }
 
 function createListItemRow(data) {
+    console.log(data)
     const listItemRow = document.createElement('div');
     listItemRow.className = 'paginated-row grid-container';
 
     data.forEach((element) => {
         const anchor = document.createElement('a');
         anchor.className = 'router-item';
-        anchor.href = `/detail.html?id=${element._id}`;
+        anchor.href = `/pages/storeDetail/detail.html?id=${element._id}`;
 
         const paginatedItem = document.createElement('div');
         paginatedItem.className = 'paginated-item items';
@@ -105,4 +130,11 @@ function createListItemRow(data) {
     });
 
     return listItemRow;
+}
+
+
+function loadTime() {
+    const setElement = document.createElement('div')
+    setElement.setAttribute('class', `div-load`)
+    return setElement
 }

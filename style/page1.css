@@ -246,7 +246,10 @@
     border-radius: 0;
     margin-bottom: var(--spacing-sm);
   }
-  
+  .not-found h5{
+    padding: var(--spacing-sm);
+    color: var(--text-color);
+}
   @keyframes pulse {
     0%, 100% {
       opacity: 1;

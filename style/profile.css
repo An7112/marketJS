@@ -520,7 +520,7 @@ textarea {
 .dot-button:hover {
     background-color: #1c212b;
 }
-.dot-button svg {
+.dot-button span {
     color: var(--main-major);
     font-size: 20px;
 }

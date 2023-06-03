@@ -8,7 +8,7 @@ function closeModal() {
 function openModal() {
     const modal = document.querySelector('.cart-frame')
     modal.classList.add('open')
-    
+
     const totalPrice = productsInCart.reduce((a, c) =>
         a + (c.productPrice * 1), 0
     );
@@ -56,6 +56,10 @@ function openModal() {
     })
 }
 function clearAllItem() {
+    const added = document.querySelectorAll('.' + 'added-to-cart')
+    added.forEach(function (element) {
+        element.classList.replace('added-to-cart', 'add-to-cart');
+    });
     localStorage.removeItem('cart')
     productsInCart = [];
     getListView.innerHTML = '';

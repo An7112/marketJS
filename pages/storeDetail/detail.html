@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/style/app.css">
+    <link rel="stylesheet" type="text/css" href="/style/page1.css">
+    <link rel="stylesheet" type="text/css" href="/style/index.css">
+    <link rel="stylesheet" type="text/css" href="/style/detail.css">
+    <link rel="stylesheet" type="text/css" href="/style/shopping.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+</head>
+
+<body>
+    <div id="header">
+        <div class="frame-menu-icon">
+            <span class="material-symbols-outlined menu-icon" onclick="toggleSide()">
+                menu
+            </span>
+        </div>
+        <div class="frame-header">
+            <div class="frame-input">
+                <span class="material-symbols-outlined icon-search-header">
+                    search
+                </span>
+                <input class='input-header' placeholder='Search or type a command' />
+            </div>
+            <div class='frame-info'>
+                <div class='class-icon-header'>
+                    <span class="material-symbols-outlined icon-header">
+                        paid
+                    </span>
+                </div>
+                <div class='class-icon-header' onclick="openModal()">
+                    <span class="material-symbols-outlined icon-header">
+                        shopping_cart
+                    </span>
+                </div>
+                <div class='class-avatar'>
+                    <span class='span-frame'>
+                        <img class='img-avatar' alt='user' src='/media/avatar.avif' />
+                    </span>
+                </div>
+            </div>
+            <div class="cart-frame" id="cart-frame-id">
+                <aside class='cart-main' id="cart-main-id">
+                    <div class='cart-outer'>
+                        <div class='shopping-cart'>
+                            <header>
+                                <div class='fresnel-greater'>
+                                    <div class='cart-inner'>
+                                        <div class='shopping-cart-name'>
+                                            <h4>Your cart</h4>
+                                            <AiFillExclamationCircle />
+                                        </div>
+                                        <button type='button' onclick="closeModal()">
+                                            <span class="material-symbols-outlined">
+                                                cancel
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <hr />
+                                    <div class='count-item' id="count-item-id">
+                                        <span>0 item</span>
+                                        <button type='button' onclick="clearAllItem()">
+                                            <span>
+                                                Clear all
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </header>
+                            <ul class='list-item' id="shopping-item-list">
+                            </ul>
+                            <div style="margin-bottom: 16px;"></div>
+                            <hr />
+                            <footer>
+                                <div class='footer-inner' id="footer-inner-id">
+                                    <span class='footer-title'>Total price</span>
+                                    <span>0 USD</span>
+                                </div>
+                            </footer>
+                            <div class='class-button'>
+                                <button onClick={buyProduct}>
+                                    Complete purchase
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="sidebar" class="open">
+
+    </div>
+
+    <div id="detail-content" class="class-item open">
+
+    </div>
+
+
+    <script>
+        function loadTime() {
+            const setElement = document.createElement('div')
+            setElement.setAttribute('class', `div-load`)
+            return setElement
+        }
+        const detailContent = document.getElementById('detail-content');
+        var urlPage = new URL(window.location.href);
+        var storeId = urlPage.searchParams.get("id");
+        if (window.Promise) {
+            if (navigator.onLine) {
+                console.log(storeId)
+                var promise = new Promise(function (resolve, reject) {
+                    var request = new XMLHttpRequest();
+                    detailContent.appendChild(loadTime());
+                    request.open('GET', `https://marketplace-3lqw.onrender.com/api/products?owner=${storeId}`);
+                    request.onload = function () {
+                        if (request.status == 200) {
+                            resolve(request.response);
+                        } else {
+                            detailContent.innerHTML = `
+                        <div class="not-found">
+                            <h5>Oh no!, something's wrong ${request.statusText}</h5>
+                        </div>
+                    `;
+                            reject(Error(request.statusText));
+                        }
+                    };
+                    request.onerror = function () {
+                        detailContent.innerHTML = `
+                    <div class="not-found">
+                        <h5>Error fetching data</h5>
+                    </div>
+                `;
+                        reject(Error('Error fetching data.'));
+                    };
+                    request.send();
+                });
+
+                promise.then(function (data) {
+                    detailContent.innerHTML = '';
+                    const jsonData = JSON.parse(data);
+                    updateDetailContent(jsonData);
+                }).catch(function (error) {
+                    console.log('Promise rejected.');
+                });
+            } else {
+                detailContent.innerHTML = `
+            <div class="not-found">
+                <h5>Oh no, it looks like you don't have an internet connection!</h5>
+            </div>
+        `;
+            }
+        } else {
+            console.log('Promise not available');
+        }
+        const addToCart = (item) => {
+            const productsInCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const productExists = productsInCart.some((product) => product._id === item._id);
+            if (!productExists) {
+                productsInCart.push(item);
+                localStorage.setItem('cart', JSON.stringify(productsInCart));
+            }
+        };
+
+        const removeFromCart = (item) => {
+            const productsInCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const productIndex = productsInCart.findIndex((product) => product._id === item._id);
+
+            if (productIndex !== -1) {
+                productsInCart.splice(productIndex, 1);
+                localStorage.setItem('cart', JSON.stringify(productsInCart));
+            }
+        };
+
+
+        function shoppingCart(button, item) {
+            if (button.classList.contains('add-to-cart')) {
+                button.classList.replace('add-to-cart', 'added-to-cart');
+                addToCart(item);
+            } else if (button.classList.contains('added-to-cart')) {
+                button.classList.replace('added-to-cart', 'add-to-cart');
+                removeFromCart(item);
+
+            }
+        }
+
+        function updateDetailContent(data) {
+            // Update the DOM with the detail data
+            const detailContent = document.getElementById('detail-content');
+
+            const listItem = document.createElement('div')
+            listItem.className = 'list-item'
+            data.forEach((element) => {
+                const storeItems = document.createElement('a');
+                storeItems.href = `/pages/product/product.html?storeId=${element.owner}&id=${element._id}`
+
+                const item = document.createElement('div')
+                item.className = 'item'
+
+                const buttonCart = document.createElement('button')
+                buttonCart.innerHTML = `
+                <span class="material-symbols-outlined">
+                    bookmark_added
+                </span>
+                `
+                buttonCart.className =
+                    localStorage.getItem('cart')
+                        && JSON.parse(localStorage.getItem('cart')).some((product) => product._id === element._id)
+                        ? 'added-to-cart'
+                        : 'add-to-cart';
+                buttonCart.onclick = function (event) {
+                    event.preventDefault()
+                    shoppingCart(this, element);
+                };
+
+                const frameIMG = document.createElement('div')
+                frameIMG.className = 'frame-img'
+                frameIMG.innerHTML = `<span class='span-frame'>
+                      <img src='${element.productIMG}' class='product-img' alt='' />
+                    </span>`
+
+                const itemName = document.createElement('h5')
+                itemName.className = 'item-name'
+                itemName.textContent = element.productName
+
+                const itemNameBlur = document.createElement('h5')
+                itemNameBlur.className = 'item-name blur'
+                itemNameBlur.textContent = element.owner
+
+                const itemPrice = document.createElement('span')
+                itemPrice.className = 'product-price'
+                itemPrice.innerHTML = `<span class="material-symbols-outlined">
+                                            finance_chip
+                                        </span>
+                                        ${element.productPrice}
+                                        `
+                item.appendChild(buttonCart)
+                item.appendChild(frameIMG)
+                item.appendChild(itemName)
+                item.appendChild(itemNameBlur)
+                item.appendChild(itemPrice)
+                storeItems.appendChild(item)
+                listItem.appendChild(storeItems)
+            })
+
+            detailContent.appendChild(listItem);
+        }
+
+        function toggleSide() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+            var detail = document.querySelector('.class-item')
+            detail.classList.toggle('open')
+        }
+
+    </script>
+    <script src="/js/app.js"></script>
+    <script src="/js/link.js"></script>
+    <script src="/js/shopping.js"></script>
+</body>
+
+</html>

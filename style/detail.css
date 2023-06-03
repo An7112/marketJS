@@ -107,7 +107,7 @@
     border-radius: 9999px;
     display: flex;
     align-items: center;
-    border: 1px solid #313b3a;
+    border: none;
     justify-content: center;
     position: absolute;
     z-index: 1;
@@ -117,7 +117,7 @@
     background-color: #41455ad7;
 }
 
-.add-to-cart svg{
+.add-to-cart span{
     font-size: 18px;
     color: var(--main-major);
 }
@@ -127,7 +127,7 @@
     border-radius: 9999px;
     display: flex;
     align-items: center;
-    border: 1px solid #313b3a;
+    border: none;
     justify-content: center;
     position: absolute;
     z-index: 1;
@@ -137,9 +137,9 @@
     background-color: var(--main-major);
 }
 
-.added-to-cart svg{
+.added-to-cart span{
     font-size: 18px;
-    color: var(--main-major);
+    color: var(--text-color);
 }
 
 .item .product-price svg{

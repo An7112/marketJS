@@ -2,17 +2,17 @@
 
 var data = [
     {
-        link: "app.html",
+        link: "/app.html",
         name: "Home page",
-        icon: '<span class="material-symbols-outlined">category</span>'
+        icon: '<span class="material-symbols-outlined">home</span>'
     },
     {
-        link: "page1.html",
+        link: "/pages/collection/collection.html",
         name: "collection",
         icon: '<span class="material-symbols-outlined">category</span>'
     },
     {
-        link: "profile.html",
+        link: "/pages/profile/profile.html",
         name: "profile",
         icon: '<span class="material-symbols-outlined">person</span>'
     },

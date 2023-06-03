@@ -366,7 +366,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-image: url("./media/banner/banner3.jpg");
+    background-image: url("/media/banner/banner-shop.jpg");
     border-radius: 0.75rem;
     height: 11rem;
     margin: var(--sp-4);
